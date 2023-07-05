@@ -1,0 +1,206 @@
+﻿@using Bike_Dekho.Models;
+@model Bike_Dekho.Models.BikeEditViewModel;
+
+@{
+    ViewData["Title"] = "Create";
+    var photoPath = "~/Images/" + (Model.ExistingPhotoPath ?? "noimage.jpg");
+
+}
+
+<h1>Create</h1>
+
+<h4>Bikes</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data" asp-controller="home"  method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input hidden asp-for="Id"/>
+                <label asp-for="MakeId" class="control-label"></label>
+                <select asp-for="MakeId" id="country" class="form-control" asp-items="ViewBag.MakeId">
+                    <option value="">---Select Make---</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModelId" class="control-label"></label>
+                <select asp-for="ModelId" id="state" class="form-control" asp-items="ViewBag.ModelId">
+                    <option value="">---Select Make---</option>
+                </select>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Year" class="control-label"></label>
+                <input asp-for="Year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mileage" class="control-label"></label>
+                <input asp-for="Mileage" class="form-control" />
+                <span asp-validation-for="Mileage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Features" class="control-label"></label>
+                <textarea asp-for="Features" class="form-control"></textarea>
+                <span asp-validation-for="Features" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SellerName" class="control-label"></label>
+                <input asp-for="SellerName" class="form-control" />
+                <span asp-validation-for="SellerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SellerEmail" class="control-label"></label>
+                <input asp-for="SellerEmail" class="form-control" />
+                <span asp-validation-for="SellerEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SellerPhone" class="control-label"></label>
+                <input asp-for="SellerPhone" class="form-control" />
+                <span asp-validation-for="SellerPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Currency" class="control-label"></label>
+                <select asp-for="Currency" id="state" class="form-control">
+                    <option value="">---Select Make---</option>
+                    <option value="INR">INR</option>
+                    <option value="USD">USD</option>
+                </select>
+
+            </div>
+            @*<div class="form-group">
+
+            <input asp-for="Photo" class="form-control custom-file-input">
+            <label class="control-label" asp-for="Photo">Choose File</label>
+            <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>*@
+            <div class="form-group row">
+                <label asp-for="Photo" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <div class="custom-file">
+                        <input asp-for="Photo" class="form-control custom-file-input">
+                        <label class="custom-file-label">Click to change Image</label>
+                    </div>
+                </div>
+            </div>
+            
+              <div class="form-group row col-sm-4 offset-4"> 
+
+              <img class="imageThumbnail"  src="@photoPath" asp-append-version="true" />
+              </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
+@section Scripts
+    {
+
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                //alert($(this).val().split("\\"));
+                var filename = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(filename);
+            });
+        });
+    </script>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+            console.log("document is ready");
+            $('#country').change(function () {
+                var country = $("#country").val();
+
+
+                var state = $("#state");
+
+                var baseUrl = window.location.origin;
+                var settings = {
+                    "url": baseUrl + "/Home/FetchModel/" + country,
+                    "method": "POST",
+                    "timeout": 0
+
+                };
+
+                $.ajax(settings).done(function (response) {
+                    // console.log(response);
+
+                    if (response != null && !jQuery.isEmptyObject(response)) {
+                        state.empty();
+                        state.append($('<option/>', {
+                            value: null,
+                            text: "Select Model"
+                        }));
+
+                        $.each(response, function (i, res) {
+
+                            state.append($('<option/>', {
+                                value: res.value,
+                                text: res.text
+
+                            }));
+                            // console.log(res);
+                        });
+
+                    };
+                });
+            });
+
+            $('#district').change(function () {
+                var district = $("#district").val();
+
+
+                var baseUrl = window.location.origin;
+                var settings = {
+                    "url": baseUrl + "/Home/FetchCity/" + district,
+                    "method": "POST",
+                    "timeout": 0
+
+                };
+
+                $.ajax(settings).done(function (response) {
+
+                    if (response != null && !jQuery.isEmptyObject(response)) {
+                        city.empty();
+                        city.append($('<option/>', {
+                            value: "",
+                            text: "Select Tehsil"
+                        }));
+                        //   var distJson = JSON.parse(response);
+
+                        $.each(response, function (i, res) {
+
+                            city.append($('<option/>', {
+                                value: res.value,
+                                text: res.text
+
+                            }));
+                            // console.log(res);
+                        });
+
+                    };
+                });
+            });
+        });
+
+
+    </script>
+}

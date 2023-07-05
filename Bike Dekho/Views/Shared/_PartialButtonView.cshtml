@@ -1,0 +1,10 @@
+﻿@model int
+<td role="group">
+    
+    <a asp-action="Edit" asp-route-id="@Model"  type="button"><i class="bi bi-pencil-square" title="Update"></i></a>
+    <form method="post" action="Delete">
+    <button type="submit" onclick="if(!confirm('Are you Sure To delete item ?')){return false}"  asp-action="Delete" asp-route-id="@Model">
+        <i class="bi bi-archive-fill" title="Delete"></i>
+    </button>
+    </form>
+</td>

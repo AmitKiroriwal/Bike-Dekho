@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Bike_Dekho.Models.Bikes>
+
+@{
+    ViewData["Title"] = "BikeLists";
+    var prevPage = ViewBag.Page > 1 ? ViewBag.Page - 1 : 1;
+    var nextPage = ViewBag.Page < ViewBag.TotalPages ? ViewBag.Page + 1 : ViewBag.TotalPages;
+  
+}
+<div class="page-heading">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="top-text header-text">
+            <h6>Check Out Our Listings</h6>
+            <h2>Bike listings of Different Models</h2>
+          </div>
+        </div>
+      </div>
+  <div class="col-lg-12">
+    <form id="search-form" name="gs" role="search" method="get" asp-action="BikeLists" asp-controller="Home">
+        <div class="row">
+
+            <div class="col-lg-9 align-self-center">
+                <fieldset>
+                    <input type="text" name="searchTerm" placeholder="Search" value="@ViewBag.SearchTerm" class="searchText" autocomplete="on" required>
+                </fieldset>
+            </div>
+            <div class="col-lg-3">
+                <fieldset>
+                    <button type="submit" class="main-button" href="#searchItemshow"><i class="fa fa-search"></i> Search Now</button>
+                </fieldset>
+            </div>
+        </div>
+    </form>
+</div>
+    </div>
+  </div>
+
+  <div class="recent-listing" style="margin:0px">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 mt-2 mb-5" >
+                <!-- Sorting options -->
+                <p class="align-text-right" style="text-align:right; float:right">
+                    Sort By:
+                    <a href="@Url.Action("BikeLists", new { sortBy = "name" })">Name</a> |
+                    <a href="@Url.Action("BikeLists", new { sortBy = "price" })">Price</a>
+                    <!-- Add more sorting options if needed -->
+                </p>
+        </div>
+        @foreach (var item in Model)
+           {
+        <div class="col-lg-12" id="searchItemshow">
+          
+             <div class="item">
+                <div class="row">
+                 <div class="col-lg-12">
+                   <div class="listing-item">
+                    <div class="left-image" style="width:500px; height:380px" >
+                   <a href="#"><img src="~/Images/@item.ImagePath" alt="" style="width:500px; height:380px"></a>
+                    </div>
+                     <div class="right-content align-self-center" style="margin-left:0px; margin-right:50px">
+                     <a href="#" style="margin-left:0px; margin-right:50px"><h4 style="margin-left:0px; margin-right:50px">@item.Id - @item.Make.Name | @item.Model.Name </h4></a>
+                      <h6>by: @item.SellerName</h6>
+                      <ul class="rate">
+                        <li><i class="fa fa-star-o"></i></li>
+                        <li><i class="fa fa-star-o"></i></li>
+                        <li><i class="fa fa-star-o"></i></li>
+                        <li><i class="fa fa-star-o"></i></li>
+                        <li><i class="fa fa-star-o"></i></li>
+                        <li>(18) Reviews</li>
+                      </ul>
+                      <span class="price"><img src="~/assets/images/listing-icon-01.png" alt="" class="icon"> @item.Price @item.Currency with taxes</span>
+                      <span class="details">Details: <em>@item.Features</em></span>
+                      <ul class="info">
+                        <li><img src="~/assets/images/listing-icon-02.png" alt="">Model : @item.Year</li>
+                        <li><img src="~/assets/images/listing-icon-03.png" alt="">@item.Mileage /Ltr.</li>
+                      </ul>
+                      <div class="main-white-button">
+                        <a href="contact.html"><i class="fa fa-eye"></i> Contact Now</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+           </div>
+          
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+  
+  <!-- Pagination links -->
+<a href="@Url.Action("BikeLists", new { searchTerm = ViewBag.SearchTerm, sortBy = ViewBag.SortBy, page = prevPage })">Previous</a>
+<span>Page @ViewBag.Page of @ViewBag.TotalPages</span>
+<a href="@Url.Action("BikeLists", new { searchTerm = ViewBag.SearchTerm, sortBy = ViewBag.SortBy, page = nextPage })">Next</a>

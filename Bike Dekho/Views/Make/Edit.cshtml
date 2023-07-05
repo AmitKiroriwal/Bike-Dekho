@@ -1,0 +1,39 @@
+﻿@model Make;
+@{
+    ViewData["Title"] = "Update";
+}
+
+<div class=" register">
+    <div class="row">
+        <div class="col-md-3 register-left">
+            <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
+            <h3>Welcome</h3>
+            <p>You can now add, update, delete and manage your records here!</p>
+            <a asp-action="Index" asp-controller="Make" class="btn btn-primary" role="button">View Makes </a>
+            <br />
+        </div>
+
+        <div class="col-md-9 register-right">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <h3 class="register-heading">Update an Make</h3>
+                <form asp-controller="Make" asp-action="Edit" method="post">
+                    <div class="row register-form">
+                        <div class="col-md-12 register-right">
+
+                            <div class="form-group">
+                                <input hidden class="form-control" placeholder="Full Name *" asp-for="Id" />
+                                <input type="text" class="form-control" placeholder="Full Name *" asp-for="Name" />
+                                <span asp-validation-for="Name"></span>
+                            </div>
+
+
+                            <input type="reset" class="btnRegister1" value="Reset" />
+                            <input type="submit" class="btnRegister" value="Update" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

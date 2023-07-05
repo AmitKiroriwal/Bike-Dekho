@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Bike_Dekho.Models.Make>
+@{
+    var num = 0;
+}
+<title>Bikes Make Details</title>
+<body>
+    <h2 id="Emp">Bike Make Records</h2>
+    <a asp-action="Add" asp-controller="Make" class="btn btn-primary btn-xs pull-right">Add New Make</a>
+    <br />
+
+    <table class="table table-light table-striped mt-5">
+        <tr>
+            
+            <th>Make Id</th>
+            <th>Make Name</th>
+            
+            <th>Action</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <partial name="_PartialButtonView" model="item.Id"/>
+                @*<td role="group">
+                    <a href="/Home/EmployeeDetails/@item.Id"><i class="bi bi-view-list" title="Details"></i></a>
+                    <a asp-action="Update" asp-controller="Home" asp-route-id="@item.Id"><i class="bi bi-pencil-square" title="Update"></i></a>
+                    <a asp-action="Delete" asp-controller="Home" asp-route-id="@item.Id" title="Delete">
+                        <i class="bi bi-archive-fill"></i>
+                    </a>
+                </td>*@
+            </tr>
+            
+        }
+
+    </table>
+
+
+</body>  
